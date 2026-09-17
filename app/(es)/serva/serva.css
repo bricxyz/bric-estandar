@@ -18,6 +18,11 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .back:hover{color:var(--gray-300)}
 .back svg{width:16px;height:16px}
 .logo{font-weight:700;font-size:18px}
+.topbar .container{gap:16px}
+.topbar .logo{margin-left:auto}
+.lang{display:flex;gap:4px;font-size:14px;font-weight:500}
+.lang a{color:var(--gray-400);padding:2px 4px;transition:color .2s}
+.lang a[aria-current],.lang a:hover{color:#fff}
 .logo i{font-style:normal;color:#5B9BE0}
 
 main{padding:64px 0 0}

@@ -10,6 +10,7 @@ export default function Page() {
       <div className="topbar"><div className="container">
         <a className="back" href="/#products"><svg className="i" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5" /></svg>Volver al inicio</a>
         <a className="logo" href="/">BR<i>I</i>C</a>
+        <div className="lang" role="group" aria-label="Idioma"><a data-lang="es" href="/serva" aria-current="page">ES</a><a data-lang="en" href="/en/serva">EN</a></div>
       </div></div>
       
       <main>

@@ -19,8 +19,9 @@ header .container{display:flex;align-items:center;justify-content:space-between}
 .logo i{font-style:normal;color:#5B9BE0}
 .h-right{display:flex;align-items:center;gap:22px}
 .lang{display:flex;gap:4px;font-size:14px;font-weight:500}
-.lang button{all:unset;cursor:pointer;color:var(--gray-400);padding:2px 4px}
-.lang button[aria-pressed=true]{color:#fff}
+.lang a{text-decoration:none;color:var(--gray-400);padding:2px 4px;transition:color .2s}
+.lang a[aria-current]{color:#fff}
+.lang a:hover{color:#fff}
 .menu-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#fff}
 .menu-btn svg{width:18px;height:18px}
 .btn-touch{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;background:var(--gray-900);color:#fff;font-size:14px;font-weight:500;transition:background .2s}
@@ -28,15 +29,15 @@ header .container{display:flex;align-items:center;justify-content:space-between}
 header.solid{background:#fff;box-shadow:0 1px 0 var(--gray-200);padding:14px 0}
 header.solid .logo{color:var(--ink)}
 header.solid .logo i{color:var(--blue)}
-header.solid .lang button{color:var(--gray-400)}
-header.solid .lang button[aria-pressed=true],header.solid .menu-btn{color:var(--gray-900)}
+header.solid .lang a{color:var(--gray-400)}
+header.solid .lang a:hover,header.solid .lang a[aria-current],header.solid .menu-btn{color:var(--gray-900)}
 
 .overlay{position:fixed;inset:0;z-index:90;background:#fff;display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .overlay.open{opacity:1;visibility:visible}
 .overlay nav{display:flex;flex-direction:column;align-items:center;gap:32px}
 .overlay a{font-size:24px;font-weight:500;color:var(--gray-900)}
 .overlay a:hover{color:var(--blue)}
-body.menu-open header .logo,body.menu-open header .menu-btn,body.menu-open header .lang button[aria-pressed=true]{color:var(--gray-900)}
+body.menu-open header .logo,body.menu-open header .menu-btn,body.menu-open header .lang a[aria-current]{color:var(--gray-900)}
 
 /* hero */
 .hero{position:relative;min-height:100vh;background:var(--navy);color:#fff;display:flex;align-items:center;overflow:hidden}
@@ -127,6 +128,8 @@ form button svg{width:16px;height:16px}
 .info li{display:flex;gap:16px;align-items:flex-start}
 .info svg{color:#fff;margin-top:3px}
 .info b{display:block;font-weight:600;margin-bottom:2px}
+.form-msg{grid-column:1/-1;margin:0;font-size:14px;color:#8FC7FF;min-height:0}
+.form-msg:empty{display:none}
 .info span{color:var(--gray-300)}
 
 footer{background:var(--gray-900);color:var(--gray-300);padding:40px 0}

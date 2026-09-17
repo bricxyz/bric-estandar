@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './home.css';
 import HomeBehavior from './home-behavior';
-import DemoServa from './demo-serva';
+import DemoServa from '../demo-serva';
 
 export const metadata: Metadata = { title: "BRIC · Soluciones electrónicas para desafíos reales" };
 
@@ -12,7 +12,7 @@ export default function Page() {
         <div className="container">
           <a className="logo" href="#">BR<i>I</i>C</a>
           <div className="h-right">
-            <div className="lang" role="group" aria-label="Idioma"><button aria-pressed="true">ES</button><button aria-pressed="false">EN</button></div>
+            <div className="lang" role="group" aria-label="Idioma"><a data-lang="es" href="/" aria-current="page">ES</a><a data-lang="en" href="/en">EN</a></div>
             <button className="menu-btn" aria-expanded="false" aria-controls="menu"><span>MENÚ</span><svg className="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></svg></button>
             <a className="btn-touch" href="#contact">Contactanos</a>
           </div>
@@ -82,7 +82,7 @@ export default function Page() {
           </div>
         </section>
       
-        <DemoServa />
+        <DemoServa lang="es" />
       
         <section className="block" id="partners">
           <div className="container">
@@ -120,10 +120,11 @@ export default function Page() {
                 <h3>Contactanos</h3>
                 <p>¿Tenés preguntas o querés saber más sobre nuestras soluciones? Escribile a nuestro equipo.</p>
                 <form>
-                  <label>Nombre<input placeholder="Tu nombre" /></label>
-                  <label>Email<input type="email" placeholder="Tu email" /></label>
-                  <label className="full">Empresa<input placeholder="Tu empresa" /></label>
-                  <label className="full">Mensaje<textarea placeholder="¿En qué te podemos ayudar?"></textarea></label>
+                  <label>Nombre<input name="nombre" placeholder="Tu nombre" /></label>
+                  <label>Email<input type="email" name="email" placeholder="Tu email" /></label>
+                  <label className="full">Empresa<input name="empresa" placeholder="Tu empresa" /></label>
+                  <label className="full">Mensaje<textarea name="mensaje" placeholder="¿En qué te podemos ayudar?"></textarea></label>
+                  <p className="form-msg" role="status"></p>
                   <button type="submit">Enviar mensaje <svg className="i" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg></button>
                 </form>
               </div>

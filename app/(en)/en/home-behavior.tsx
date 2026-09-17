@@ -14,12 +14,21 @@ export default function HomeBehavior() {
     addEventListener('scroll',onScroll,{passive:true});onScroll();
     
     const btn=document.querySelector('.menu-btn'),menu=document.getElementById('menu'),label=btn.querySelector('span'),icon=btn.querySelector('svg');
-    const setMenu=open=>{menu.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);btn.setAttribute('aria-expanded',open);label.textContent=open?'CERRAR':'MENÚ';icon.innerHTML=open?'<path d="M18 6 6 18M6 6l12 12"/>':'<path d="M4 6h16M4 12h16M4 18h16"/>';onScroll();};
+    const setMenu=open=>{menu.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);btn.setAttribute('aria-expanded',open);label.textContent=open?'CLOSE':'MENU';icon.innerHTML=open?'<path d="M18 6 6 18M6 6l12 12"/>':'<path d="M4 6h16M4 12h16M4 18h16"/>';onScroll();};
     btn.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
     menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
     addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
     
-    document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>document.querySelectorAll('.lang button').forEach(x=>x.setAttribute('aria-pressed',x===b))));
+    const form=document.querySelector('#contact form'),msg=document.querySelector('.form-msg');
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      const v=n=>(form.querySelector(`[name="${n}"]`)||{}).value?.trim()||'';
+      const nombre=v('nombre'),email=v('email'),empresa=v('empresa'),mensaje=v('mensaje');
+      if(!nombre||!email||!mensaje){msg.textContent='Please fill in your name, email and message.';return}
+      const cuerpo=[mensaje,'','—',nombre,empresa,email].filter(Boolean).join(String.fromCharCode(10));
+      msg.textContent='Your email app opened with the message ready to send.';
+      location.href='mailto:bric.xyz@gmail.com?subject='+encodeURIComponent('Enquiry from the BRIC website')+'&body='+encodeURIComponent(cuerpo);
+    });
     
     const media=document.querySelector('.sol-media');
     media.addEventListener('click',()=>media.classList.toggle('on'));

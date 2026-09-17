@@ -14,10 +14,65 @@ type Serie = {
   umbral: number;
 };
 
-const SERIES: { id: string; label: string; caso: string; serie: Serie }[] = [
-  { id: 'a', label: 'Pozo A', caso: 'Prueba controlada: el rotador se desconectó a propósito', serie: pozoA as Serie },
-  { id: 'b', label: 'Pozo B', caso: 'Operación normal: la sarta gira durante todo el registro', serie: pozoB as Serie },
+type Lang = 'es' | 'en';
+
+const SERIES: { id: string; serie: Serie }[] = [
+  { id: 'a', serie: pozoA as Serie },
+  { id: 'b', serie: pozoB as Serie },
 ];
+
+const T = {
+  es: {
+    titulo: 'Así se ve una falla de giro',
+    intro:
+      'Datos medidos por SERVA en pozos de Rincón de los Sauces, Neuquén. La señal del magnetómetro dibuja una onda mientras la sarta rota; cuando se detiene, la onda desaparece y el receptor lo marca en la sala de monitoreo.',
+    elegir: 'Elegí el registro',
+    pozos: ['Pozo A', 'Pozo B'],
+    casos: [
+      'Prueba controlada: el rotador se desconectó a propósito',
+      'Operación normal: la sarta gira durante todo el registro',
+    ],
+    eje: 'Magnetómetro, eje z · promedio por minuto',
+    reproducir: 'Reproducir',
+    pausar: 'Pausar',
+    momento: 'Momento del registro',
+    receptor: 'Receptor en la sala de monitoreo',
+    leds: ['ON', 'Comunicación', 'Batería sensor', 'Error giro', 'Pozo parado'],
+    gira: 'La sarta está girando',
+    noGira: 'La sarta no gira',
+    lecturaAlarma: 'Dos reportes seguidos sin giro: el receptor enciende ERROR GIRO y hay que revisar el rotador.',
+    lecturaOk: 'El magnetómetro ve una vuelta completa cada pocos minutos. Todo en orden.',
+    lecturaPausa: 'La señal se aplanó. Si el próximo reporte llega igual, se enciende la alarma.',
+    nota:
+      'Registro real de SERVA. En el Pozo A el rotador se desconectó a propósito para probar la detección y se volvió a conectar a las 2 horas 15. El sensor reporta al receptor cada 1 hora y el intervalo es configurable; acá se muestran reportes cada 30 minutos. Los nombres de los pozos se omiten.',
+    alt: (pozo: string, caso: string) => `Registro del magnetómetro en ${pozo}. ${caso}.`,
+  },
+  en: {
+    titulo: 'This is what a rotation failure looks like',
+    intro:
+      'Data measured by SERVA on wells in Rincón de los Sauces, Neuquén. The magnetometer signal traces a wave while the rod string rotates; when it stops, the wave disappears and the receiver flags it in the monitoring room.',
+    elegir: 'Choose the record',
+    pozos: ['Well A', 'Well B'],
+    casos: [
+      'Controlled test: the rotator was disconnected on purpose',
+      'Normal operation: the rod string rotates throughout the record',
+    ],
+    eje: 'Magnetometer, z axis · one-minute average',
+    reproducir: 'Play',
+    pausar: 'Pause',
+    momento: 'Point in the record',
+    receptor: 'Receiver in the monitoring room',
+    leds: ['ON', 'Communication', 'Sensor battery', 'Rotation error', 'Well stopped'],
+    gira: 'The rod string is rotating',
+    noGira: 'The rod string is not rotating',
+    lecturaAlarma: 'Two reports in a row without rotation: the receiver lights ROTATION ERROR and the rotator needs a check.',
+    lecturaOk: 'The magnetometer sees a full turn every few minutes. All good.',
+    lecturaPausa: 'The signal went flat. If the next report comes in the same, the alarm goes off.',
+    nota:
+      'Real SERVA record. On Well A the rotator was disconnected on purpose to test detection and reconnected after 2 hours 15 minutes. The sensor reports to the receiver every hour and the interval is configurable; this demo shows reports every 30 minutes. Well names are omitted.',
+    alt: (pozo: string, caso: string) => `Magnetometer record on ${pozo}. ${caso}.`,
+  },
+} as const;
 
 // El sensor reporta su estado al receptor cada 1 hora, y el intervalo es configurable.
 // En la demo se usan reportes cada 30 minutos para que la secuencia entre en pantalla.
@@ -49,16 +104,16 @@ function estadoAlarma(gira: number[], minuto: number) {
   return { alarma, reportes, sinGiro };
 }
 
-export default function DemoServa() {
+export default function DemoServa({ lang = 'es' }: { lang?: Lang }) {
+  const t = T[lang];
   const [activo, setActivo] = useState(0);
   const [minuto, setMinuto] = useState(0);
   const [reproduciendo, setReproduciendo] = useState(false);
   const raf = useRef<number | null>(null);
 
-  const { serie, caso, label } = useMemo(
-    () => ({ serie: SERIES[activo].serie, caso: SERIES[activo].caso, label: SERIES[activo].label }),
-    [activo]
-  );
+  const serie = SERIES[activo].serie;
+  const caso = t.casos[activo];
+  const label = t.pozos[activo];
   const total = serie.magz.length;
 
   useEffect(() => {
@@ -116,14 +171,11 @@ export default function DemoServa() {
     <section className="block demo" id="demo">
       <div className="container">
         <div className="s-head">
-          <h2>Así se ve una falla de giro</h2>
-          <p>
-            Datos medidos por SERVA en pozos de Rincón de los Sauces, Neuquén. La señal del magnetómetro dibuja una onda
-            mientras la sarta rota; cuando se detiene, la onda desaparece y el receptor lo marca en la sala de monitoreo.
-          </p>
+          <h2>{t.titulo}</h2>
+          <p>{t.intro}</p>
         </div>
 
-        <div className="demo-tabs" role="group" aria-label="Elegí el registro">
+        <div className="demo-tabs" role="group" aria-label={t.elegir}>
           {SERIES.map((s, i) => (
             <button
               key={s.id}
@@ -135,7 +187,7 @@ export default function DemoServa() {
                 setMinuto(0);
               }}
             >
-              {s.label}
+              {t.pozos[i]}
             </button>
           ))}
           <span className="demo-caso">{caso}</span>
@@ -143,7 +195,7 @@ export default function DemoServa() {
 
         <div className="demo-grid">
           <div className="demo-chart">
-            <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Registro del magnetómetro en ${label}. ${caso}.`}>
+            <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t.alt(label, caso)}>
               {bandas.map((b, i) => (
                 <rect
                   key={i}
@@ -173,7 +225,7 @@ export default function DemoServa() {
               <line x1={x(minuto)} y1={PAD.t} x2={x(minuto)} y2={H - PAD.b} className="demo-cabezal" />
               <circle cx={x(minuto)} cy={y(serie.magz[minuto])} r="5" className="demo-punto" />
               <text x={PAD.l} y={14} className="demo-eje">
-                Magnetómetro, eje z · promedio por minuto
+                {t.eje}
               </text>
             </svg>
 
@@ -189,14 +241,14 @@ export default function DemoServa() {
                     <path d="M8 5l11 7-11 7z" />
                   </svg>
                 )}
-                {reproduciendo ? 'Pausar' : 'Reproducir'}
+                {reproduciendo ? t.pausar : t.reproducir}
               </button>
               <input
                 type="range"
                 min={0}
                 max={total - 1}
                 value={minuto}
-                aria-label="Momento del registro"
+                aria-label={t.momento}
                 onChange={e => {
                   setReproduciendo(false);
                   setMinuto(Number(e.target.value));
@@ -207,45 +259,37 @@ export default function DemoServa() {
           </div>
 
           <aside className="demo-panel">
-            <h3>Receptor en la sala de monitoreo</h3>
+            <h3>{t.receptor}</h3>
             <ul className="demo-leds">
               <li className="on">
                 <i />
-                <span>ON</span>
+                <span>{t.leds[0]}</span>
               </li>
               <li className="on">
                 <i />
-                <span>Comunicación</span>
+                <span>{t.leds[1]}</span>
               </li>
               <li className="on">
                 <i />
-                <span>Batería sensor</span>
+                <span>{t.leds[2]}</span>
               </li>
               <li className={alarma ? 'alarma' : ''}>
                 <i />
-                <span>Error giro</span>
+                <span>{t.leds[3]}</span>
               </li>
               <li>
                 <i />
-                <span>Pozo parado</span>
+                <span>{t.leds[4]}</span>
               </li>
             </ul>
-            <p className={`demo-estado ${gira ? 'ok' : 'bad'}`}>{gira ? 'La sarta está girando' : 'La sarta no gira'}</p>
+            <p className={`demo-estado ${gira ? 'ok' : 'bad'}`}>{gira ? t.gira : t.noGira}</p>
             <p className="demo-lectura">
-              {alarma
-                ? 'Dos reportes seguidos sin giro: el receptor enciende ERROR GIRO y hay que revisar el rotador.'
-                : gira
-                  ? 'El magnetómetro ve una vuelta completa cada pocos minutos. Todo en orden.'
-                  : 'La señal se aplanó. Si el próximo reporte llega igual, se enciende la alarma.'}
+              {alarma ? t.lecturaAlarma : gira ? t.lecturaOk : t.lecturaPausa}
             </p>
           </aside>
         </div>
 
-        <p className="demo-note">
-          Registro real de SERVA. En el Pozo A el rotador se desconectó a propósito para probar la detección y se volvió a
-          conectar a las 2 horas 15. El sensor reporta al receptor cada 1 hora y el intervalo es configurable; acá se
-          muestran reportes cada 30 minutos. Los nombres de los pozos se omiten.
-        </p>
+        <p className="demo-note">{t.nota}</p>
       </div>
     </section>
   );
