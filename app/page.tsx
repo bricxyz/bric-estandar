@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './home.css';
 import HomeBehavior from './home-behavior';
+import DemoServa from './demo-serva';
 
 export const metadata: Metadata = { title: "BRIC · Soluciones electrónicas para desafíos reales" };
 
@@ -80,6 +81,8 @@ export default function Page() {
             </div>
           </div>
         </section>
+      
+        <DemoServa />
       
         <section className="block" id="partners">
           <div className="container">
