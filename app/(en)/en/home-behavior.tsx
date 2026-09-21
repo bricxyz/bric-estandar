@@ -19,15 +19,26 @@ export default function HomeBehavior() {
     menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
     addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
     
-    const form=document.querySelector('#contact form'),msg=document.querySelector('.form-msg');
-    form.addEventListener('submit',e=>{
+    const FORMSPREE='';
+    const form=document.querySelector('#contact form'),msg=document.querySelector('.form-msg'),boton=form.querySelector('button[type=submit]');
+    const aviso=(texto,tipo)=>{msg.textContent=texto;msg.dataset.tipo=tipo||''};
+    form.addEventListener('submit',async e=>{
       e.preventDefault();
       const v=n=>(form.querySelector(`[name="${n}"]`)||{}).value?.trim()||'';
-      const nombre=v('nombre'),email=v('email'),empresa=v('empresa'),mensaje=v('mensaje');
-      if(!nombre||!email||!mensaje){msg.textContent='Please fill in your name, email and message.';return}
-      const cuerpo=[mensaje,'','—',nombre,empresa,email].filter(Boolean).join(String.fromCharCode(10));
-      msg.textContent='Your email app opened with the message ready to send.';
-      location.href='mailto:bric.xyz@gmail.com?subject='+encodeURIComponent('Enquiry from the BRIC website')+'&body='+encodeURIComponent(cuerpo);
+      if(!v('nombre')||!v('email')||!v('mensaje')){aviso('Please fill in your name, email and message.','error');return}
+      if(!FORMSPREE){
+        const cuerpo=[v('mensaje'),'','—',v('nombre'),v('empresa'),v('email')].filter(Boolean).join(String.fromCharCode(10));
+        aviso('Your email app opened with the message ready to send.');
+        location.href='mailto:bric.xyz@gmail.com?subject='+encodeURIComponent('Enquiry from the BRIC website')+'&body='+encodeURIComponent(cuerpo);
+        return;
+      }
+      boton.disabled=true;aviso('Sending…');
+      try{
+        const r=await fetch(FORMSPREE,{method:'POST',headers:{Accept:'application/json'},body:new FormData(form)});
+        if(!r.ok)throw new Error(String(r.status));
+        form.reset();aviso('Thanks, we got your message. We’ll get back to you shortly.','ok');
+      }catch(err){aviso('We couldn’t send your message. Please try again or write to bric.xyz@gmail.com.','error')}
+      finally{boton.disabled=false}
     });
     
     const media=document.querySelector('.sol-media');

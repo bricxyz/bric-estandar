@@ -123,7 +123,7 @@ export default function Page() {
             <h2>Want SERVA on your wells?</h2>
             <p className="sub">Choose the path that fits your operation.</p>
             <div className="paths">
-              <div className="path"><h3>Standard product</h3><p>Tulsa Oilfield Equipment sells SERVA and provides the product warranty.</p><a className="go" href="https://www.tulsaoil.com" target="_blank" rel="noopener">Go to Tulsa <svg className="i" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" /></svg></a></div>
+              <div className="path"><h3>Standard product</h3><p>SERVA is sold through Tulsa Oilfield Equipment.</p><a className="go" href="https://www.tulsaoil.com" target="_blank" rel="noopener">Go to Tulsa <svg className="i" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" /></svg></a></div>
               <div className="path"><h3>Adaptation or custom development</h3><p>If your operation needs a different variant or a new development, we design it with your team.</p><a className="go" href="/en#contact">Talk to BRIC <svg className="i" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg></a></div>
             </div>
           </div>

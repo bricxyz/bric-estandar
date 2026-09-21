@@ -130,6 +130,10 @@ form button svg{width:16px;height:16px}
 .info b{display:block;font-weight:600;margin-bottom:2px}
 .form-msg{grid-column:1/-1;margin:0;font-size:14px;color:#8FC7FF;min-height:0}
 .form-msg:empty{display:none}
+.form-msg[data-tipo=ok]{color:#86EFAC}
+.form-msg[data-tipo=error]{color:#FCA5A5}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+form button:disabled{opacity:.6;cursor:progress}
 .info span{color:var(--gray-300)}
 
 footer{background:var(--gray-900);color:var(--gray-300);padding:40px 0}

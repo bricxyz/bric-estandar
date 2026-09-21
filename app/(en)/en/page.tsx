@@ -124,6 +124,8 @@ export default function Page() {
                   <label>Email<input type="email" name="email" placeholder="Your email" /></label>
                   <label className="full">Company<input name="empresa" placeholder="Your company" /></label>
                   <label className="full">Message<textarea name="mensaje" placeholder="How can we help?"></textarea></label>
+                  <input type="hidden" name="_subject" value="Enquiry from the BRIC website" />
+                  <input type="text" name="_gotcha" className="trampa" tabIndex={-1} aria-hidden="true" />
                   <p className="form-msg" role="status"></p>
                   <button type="submit">Send message <svg className="i" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg></button>
                 </form>

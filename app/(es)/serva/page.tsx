@@ -123,7 +123,7 @@ export default function Page() {
             <h2>¿Querés SERVA en tus pozos?</h2>
             <p className="sub">Elegí el camino que mejor se ajusta a tu operación.</p>
             <div className="paths">
-              <div className="path"><h3>Producto estándar</h3><p>Tulsa Oilfield Equipment comercializa SERVA y da la garantía del producto.</p><a className="go" href="https://www.tulsaoil.com" target="_blank" rel="noopener">Ir a Tulsa <svg className="i" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" /></svg></a></div>
+              <div className="path"><h3>Producto estándar</h3><p>SERVA se comercializa a través de Tulsa Oilfield Equipment.</p><a className="go" href="https://www.tulsaoil.com" target="_blank" rel="noopener">Ir a Tulsa <svg className="i" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" /></svg></a></div>
               <div className="path"><h3>Adaptación o desarrollo a medida</h3><p>Si tu operación necesita otra variante o un desarrollo nuevo, lo diseñamos con tu equipo.</p><a className="go" href="/#contact">Hablar con BRIC <svg className="i" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg></a></div>
             </div>
           </div>
